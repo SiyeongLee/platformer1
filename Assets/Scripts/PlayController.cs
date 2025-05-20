@@ -11,7 +11,7 @@ public class PlayController : MonoBehaviour
     public float jumpForce = 3f;
     public Transform groundCheck;
     public LayerMask groundLayer;
-    float score;
+    public float score;
     private bool isGrounded;
     private bool isGiant = false;
     public Rigidbody2D rb;
@@ -23,7 +23,7 @@ public class PlayController : MonoBehaviour
     
     private void SpeedPoweroff() { moveSpeed = 3f; }
 
-    private void Awake()
+    public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         pAni = GetComponent <Animator>();
@@ -78,7 +78,7 @@ public class PlayController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Respawn"))
         {
@@ -99,6 +99,7 @@ public class PlayController : MonoBehaviour
         if (collision.CompareTag("Item"))
         {
             isGiant = true;
+            score += collision.GetComponent<itemObject>().GetPoint();
             Destroy(collision.gameObject);
         }
         if (collision.CompareTag("Power"))
@@ -106,7 +107,7 @@ public class PlayController : MonoBehaviour
             power = true;
             Invoke("Poweroff",15 );
             Destroy(collision.gameObject);
-
+           
         }
         if (collision.CompareTag("JumpPower"))
         {
